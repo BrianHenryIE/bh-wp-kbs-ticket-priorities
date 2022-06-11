@@ -15,29 +15,27 @@ use BrianHenryIE\KBS_Ticket_Priorities\WP_Includes\BH_WP_KBS_Ticket_Priorities;
  */
 class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
-    protected function setUp() : void
-    {
-        parent::setUp();
-        \WP_Mock::setUp();
-    }
+	protected function setUp() : void {
+		parent::setUp();
+		\WP_Mock::setUp();
+	}
 
-    public function tearDown(): void
-    {
-        \WP_Mock::tearDown();
-        parent::tearDown();
-    }
+	public function tearDown(): void {
+		\WP_Mock::tearDown();
+		parent::tearDown();
+	}
 
-    /**
-     * Verifies the plugin initialization.
-     * Verifies the plugin does not output anything to screen.
-     */
+	/**
+	 * Verifies the plugin initialization.
+	 * Verifies the plugin does not output anything to screen.
+	 */
 	public function test_plugin_include(): void {
 
-        // Prevents code-coverage counting, and removes the need to define the WordPress functions that are used in that class.
-        \Patchwork\redefine(
-            array( BH_WP_KBS_Ticket_Priorities::class, '__construct' ),
-            function() {}
-        );
+		// Prevents code-coverage counting, and removes the need to define the WordPress functions that are used in that class.
+		\Patchwork\redefine(
+			array( BH_WP_KBS_Ticket_Priorities::class, '__construct' ),
+			function() {}
+		);
 
 		// Defined in `bootstrap.php`.
 		global $plugin_root_dir, $plugin_name, $plugin_basename;
@@ -70,42 +68,26 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'trailingslashit',
 			array(
-				'args'   => array( \WP_Mock\Functions::type( 'string' ) ),
+				'args'       => array( \WP_Mock\Functions::type( 'string' ) ),
 				'return_arg' => true,
-				'times' => 1,
+				'times'      => 1,
 			)
 		);
 
-		\WP_Mock::userFunction(
-			'register_activation_hook',
-			array(
-				'args'   => array( \WP_Mock\Functions::type( 'string' ), \WP_Mock\Functions::type( 'array' ) ),
-				'times' => 1,
-			)
-		);
-
-		\WP_Mock::userFunction(
-			'register_deactivation_hook',
-			array(
-				'args'   => array( \WP_Mock\Functions::type( 'string' ), \WP_Mock\Functions::type( 'array' ) ),
-				'times' => 1,
-			)
-		);
-
-        ob_start();
+		ob_start();
 
 		include $plugin_root_dir . '/bh-wp-kbs-ticket-priorities.php';
 
-        $printed_output = ob_get_contents();
+		$printed_output = ob_get_contents();
 
-        ob_end_clean();
+		ob_end_clean();
 
-        $this->assertEmpty( $printed_output );
+		$this->assertEmpty( $printed_output );
 
 		$this->assertArrayHasKey( 'bh_wp_kbs_ticket_priorities', $GLOBALS );
 
 		$this->assertInstanceOf( BH_WP_KBS_Ticket_Priorities::class, $GLOBALS['bh_wp_kbs_ticket_priorities'] );
 
 	}
-    
+
 }

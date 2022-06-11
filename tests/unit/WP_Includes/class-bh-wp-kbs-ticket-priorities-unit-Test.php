@@ -6,18 +6,18 @@
 
 namespace BrianHenryIE\KBS_Ticket_Priorities\WP_Includes;
 
-use BrianHenryIE\KBS_Ticket_Priorities\Admin\Admin;
-use BrianHenryIE\KBS_Ticket_Priorities\Frontend\Frontend;
+use BrianHenryIE\KBS_Ticket_Priorities\KB_Support\Ticket;
 use WP_Mock\Matcher\AnyInstance;
 
 /**
  * Class BH_WP_KBS_Ticket_Priorities_Unit_Test
+ *
  * @coversDefaultClass \BrianHenryIE\KBS_Ticket_Priorities\WP_Includes\BH_WP_KBS_Ticket_Priorities
  */
 class BH_WP_KBS_Ticket_Priorities_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setUp(): void {
-	    parent::setUp();
+		parent::setUp();
 		\WP_Mock::setUp();
 	}
 
@@ -40,36 +40,15 @@ class BH_WP_KBS_Ticket_Priorities_Unit_Test extends \Codeception\Test\Unit {
 	}
 
 	/**
-	 * @covers ::define_admin_hooks
+	 * @covers ::define_ticket_hooks
 	 */
-	public function test_admin_hooks(): void {
+	public function test_ticket_hooks(): void {
 
 		\WP_Mock::expectActionAdded(
-			'admin_enqueue_scripts',
-			array( new AnyInstance( Admin::class ), 'enqueue_styles' )
-		);
-
-		\WP_Mock::expectActionAdded(
-			'admin_enqueue_scripts',
-			array( new AnyInstance( Admin::class ), 'enqueue_scripts' )
-		);
-
-		new BH_WP_KBS_Ticket_Priorities();
-	}
-
-	/**
-	 * @covers ::define_frontend_hooks
-	 */
-	public function test_frontend_hooks(): void {
-
-		\WP_Mock::expectActionAdded(
-			'wp_enqueue_scripts',
-			array( new AnyInstance( Frontend::class ), 'enqueue_styles' )
-		);
-
-		\WP_Mock::expectActionAdded(
-			'wp_enqueue_scripts',
-			array( new AnyInstance( Frontend::class ), 'enqueue_scripts' )
+			'kbs_save_ticket',
+			array( new AnyInstance( Ticket::class ), 'on_save' ),
+			10,
+			2
 		);
 
 		new BH_WP_KBS_Ticket_Priorities();

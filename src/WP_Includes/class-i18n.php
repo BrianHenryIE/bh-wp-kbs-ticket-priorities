@@ -33,7 +33,7 @@ class I18n {
 		load_plugin_textdomain(
 			'bh-wp-kbs-ticket-priorities',
 			false,
-            plugin_basename( dirname( __FILE__, 2 ) ) . '/languages/'
+			plugin_basename( dirname( __FILE__, 2 ) ) . '/languages/'
 		);
 
 	}

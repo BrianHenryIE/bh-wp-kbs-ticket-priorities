@@ -13,8 +13,8 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Ticket Priorities for KB Support
- * Plugin URI:        http://github.com/username/bh-wp-kbs-ticket-priorities/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Plugin URI:        http://github.com/BrianHenryIE/bh-wp-kbs-ticket-priorities/
+ * Description:       Set low/medium/high priority on tickets and use it to filter tickets.
  * Version:           1.0.0
  * Requires PHP:      7.4
  * Author:            BrianHenryIE
@@ -27,8 +27,6 @@
 
 namespace BrianHenryIE\KBS_Ticket_Priorities;
 
-use BrianHenryIE\KBS_Ticket_Priorities\WP_Includes\Activator;
-use BrianHenryIE\KBS_Ticket_Priorities\WP_Includes\Deactivator;
 use BrianHenryIE\KBS_Ticket_Priorities\WP_Includes\BH_WP_KBS_Ticket_Priorities;
 
 // If this file is called directly, abort.
@@ -48,8 +46,6 @@ define( 'BH_WP_KBS_TICKET_PRIORITIES_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BH_WP_KBS_TICKET_PRIORITIES_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BH_WP_KBS_TICKET_PRIORITIES_URL', trailingslashit( plugins_url( __DIR__ ) ) );
 
-register_activation_hook( __FILE__, array( Activator::class, 'activate' ) );
-register_deactivation_hook( __FILE__, array( Deactivator::class, 'deactivate' ) );
 
 /**
  * Begins execution of the plugin.
